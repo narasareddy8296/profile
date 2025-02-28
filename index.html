@@ -174,24 +174,77 @@
             width: 100%;
             height: 100vh;
             background: rgba(255, 255, 255, 0.98);
-            padding-top: 80px;
+            padding-top: 5rem;
             transform: translateX(-100%);
-            transition: transform 0.3s ease-in-out;
+            transition: all 0.3s ease-in-out;
             z-index: 40;
+            display: none;
         }
 
         .mobile-menu.is-active {
             transform: translateX(0);
+            display: block;
         }
 
-        .mobile-menu a {
-            display: block;
-            padding: 15px;
-            font-size: 1.5rem;
-            text-align: center;
-            transition: color 0.3s ease;
+        .mobile-menu .nav-links {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            gap: 2rem;
+        }
+
+        /* Responsive containers */
+        @media (max-width: 768px) {
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            .project-card img {
+                height: 200px;
+            }
+            
+            h1 {
+                font-size: 2rem !important;
+            }
+            
+            .skill-card {
+                min-width: 100%;
+            }
+        }
+
+        /* Image responsiveness */
+        .responsive-image {
+            width: 100%;
+            height: auto;
+            max-height: 96vh;
+            object-fit: cover;
+        }
+
+        @media (max-width: 640px) {
+            .profile-image-container {
+                width: 150px;
+                height: 150px;
+            }
+        }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 2;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 </head>
 <body class="bg-background text-primary font-roboto">
     <!-- Navbar -->
@@ -222,7 +275,7 @@
 
     <!-- Mobile Menu -->
     <div class="mobile-menu">
-        <div class="flex flex-col items-center justify-center min-h-screen space-y-8">
+        <div class="nav-links">
             <a href="#home" class="text-xl font-medium hover:text-secondary transition-colors">Home</a>
             <a href="#about" class="text-xl font-medium hover:text-secondary transition-colors">About</a>
             <a href="#skills" class="text-xl font-medium hover:text-secondary transition-colors">Skills</a>
@@ -231,8 +284,9 @@
     </div>
 
     <!-- Hero Section -->
-    <section id="home" class="min-h-screen bg-gradient-to-br from-primary to-gray-800 flex items-center justify-center text-center px-4">
-        <div class="relative z-10" data-aos="fade-up" data-aos-duration="1000">
+    <section id="home" class="min-h-screen bg-gradient-to-br from-primary to-gray-800 flex items-center justify-center text-center px-4 relative overflow-hidden">
+        <div id="particles-js"></div>
+        <div class="content-wrapper relative z-10" data-aos="fade-up" data-aos-duration="1000">
             <div class="w-48 h-48 mx-auto relative animate-float"> <!-- Added container div -->
                 <img 
                     src="reddy.jpg" 
@@ -393,7 +447,13 @@
             <div class="projects-grid grid grid-cols-1 gap-12"> <!-- Changed to single column for better focus -->
                 <!-- Project 1 -->
                 <div class="project-card bg-white rounded-lg shadow-md overflow-hidden transition-transform transform hover:-translate-y-2 max-w-4xl mx-auto" data-aos="fade-up"> <!-- Added max-width and centering -->
-                    <img src="prj3.jpg" class="w-full h-64 object-cover" alt="Student Performance Analyzer">
+                    <div class="pb-12">
+                        <img 
+                            src="prj22.jpg" 
+                            class="w-full h-96 object-cover object-center" 
+                            alt="Student Performance Analyzer"
+                        >
+                    </div>
                     <div class="p-8">
                         <h2 class="text-2xl font-poppins font-bold text-secondary mb-4">Student Performance Analyzer</h2>
                         <p class="text-lg text-gray-600 mb-6">
@@ -463,7 +523,13 @@
 
                 <!-- Project 2 -->
                 <div class="project-card bg-white rounded-lg shadow-md overflow-hidden transition-transform transform hover:-translate-y-2 max-w-4xl mx-auto" data-aos="fade-up">
-                    <img src="prj2.png" class="w-full h-64 object-cover" alt="College Fest Website">
+                    <div class="pb-12">
+                        <img 
+                            src="prj2.png" 
+                            class="w-full h-96 object-cover object-center" 
+                            alt="College Fest Website"
+                        >
+                    </div>
                     <div class="p-8">
                         <h3 class="text-2xl font-poppins font-bold text-secondary mb-4">College Fest Management Website</h3>
                         <p class="text-lg text-gray-600 mb-6">
@@ -621,6 +687,77 @@
                     toggleMenu();
                 }
             });
+        });
+
+        // Add resize handler for better mobile compatibility
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                const mobileMenu = document.querySelector('.mobile-menu');
+                const hamburger = document.querySelector('.hamburger');
+                if (mobileMenu.classList.contains('is-active')) {
+                    mobileMenu.classList.remove('is-active');
+                    hamburger.classList.remove('is-active');
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+
+        // Particle configuration
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"
+                },
+                "shape": {
+                    "type": "circle"
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": false
+                },
+                "size": {
+                    "value": 3,
+                    "random": true
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 2,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "repulse"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                }
+            },
+            "retina_detect": true
         });
     </script>
 </body>
